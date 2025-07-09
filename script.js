@@ -1,4 +1,3 @@
-
 function generateKey() {
     const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let key = "";
@@ -25,6 +24,11 @@ function saveKey(key) {
 function copyKey() {
     const key = document.getElementById("key").innerText;
     navigator.clipboard.writeText(key).then(() => alert("Key copied to clipboard!"));
+}
+
+function copyInvite() {
+    const invite = document.getElementById("invite").innerText;
+    navigator.clipboard.writeText(invite).then(() => alert("Invite copied to clipboard!"));
 }
 
 window.onload = () => {
