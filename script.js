@@ -8,16 +8,13 @@ function generateKey() {
     return key;
 }
 
-function getStoredKey() {
+function getStoredKeyData() {
     const saved = localStorage.getItem("dailyKeyData");
     if (!saved) return null;
-    const { key, timestamp } = JSON.parse(saved);
-    const now = Date.now();
-    if (now - timestamp > 24 * 60 * 60 * 1000) return null;
-    return key;
+    return JSON.parse(saved);
 }
 
-function saveKey(key) {
+function saveKeyData(key) {
     localStorage.setItem("dailyKeyData", JSON.stringify({ key, timestamp: Date.now() }));
 }
 
@@ -32,45 +29,50 @@ function copyInvite() {
 }
 
 function updateTimer() {
-    const saved = localStorage.getItem("dailyKeyData");
-    if (!saved) {
+    const data = getStoredKeyData();
+    if (!data) {
         document.getElementById("timer").innerText = "Next key reset in: 24:00:00";
         return;
     }
-    const { timestamp } = JSON.parse(saved);
+
     const now = Date.now();
-    const diff = 24 * 60 * 60 * 1000 - (now - timestamp);
+    const elapsed = now - data.timestamp;
+    const resetInterval = 24 * 60 * 60 * 1000; // 24 hours in ms
+    let remaining = resetInterval - elapsed;
 
-    if (diff <= 0) {
-        // Time to generate a new key
+    if (remaining <= 0) {
+        // Time to generate a new key and reset
         const newKey = generateKey();
-        saveKey(newKey);
+        saveKeyData(newKey);
         document.getElementById("key").innerText = newKey;
-        document.getElementById("timer").innerText = "Next key reset in: 24:00:00";
-    } else {
-        // Calculate hours, minutes, seconds
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        // Format with leading zeros
-        const hDisplay = hours.toString().padStart(2, "0");
-        const mDisplay = minutes.toString().padStart(2, "0");
-        const sDisplay = seconds.toString().padStart(2, "0");
-
-        document.getElementById(
-            "timer"
-        ).innerText = `Next key reset in: ${hDisplay}:${mDisplay}:${sDisplay}`;
+        remaining = resetInterval;
     }
+
+    // Calculate hours, minutes, seconds remaining
+    const hours = Math.floor(remaining / (1000 * 60 * 60));
+    const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+    // Format with leading zeros
+    const hDisplay = hours.toString().padStart(2, "0");
+    const mDisplay = minutes.toString().padStart(2, "0");
+    const sDisplay = seconds.toString().padStart(2, "0");
+
+    document.getElementById(
+        "timer"
+    ).innerText = `Next key reset in: ${hDisplay}:${mDisplay}:${sDisplay}`;
 }
 
 window.onload = () => {
-    let key = getStoredKey();
-    if (!key) {
-        key = generateKey();
-        saveKey(key);
+    const data = getStoredKeyData();
+    if (!data) {
+        const key = generateKey();
+        saveKeyData(key);
+        document.getElementById("key").innerText = key;
+    } else {
+        document.getElementById("key").innerText = data.key;
     }
-    document.getElementById("key").innerText = key;
+
     updateTimer();
     setInterval(updateTimer, 1000);
 };
