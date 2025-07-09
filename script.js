@@ -71,10 +71,12 @@ window.onload = () => {
   const data = getStoredKeyData();
 
   if (!data) {
-    alert("No key found. Generating a new key.");
     const key = generateKey();
     saveKeyData(key);
     document.getElementById("key").innerText = key;
+  } else {
+    document.getElementById("key").innerText = data.key;
+  }
 
   updateTimer();
   setInterval(updateTimer, 1000);
