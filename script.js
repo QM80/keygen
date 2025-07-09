@@ -75,10 +75,6 @@ window.onload = () => {
     const key = generateKey();
     saveKeyData(key);
     document.getElementById("key").innerText = key;
-  } else {
-    alert("Found stored key: " + data.key + "\nTimestamp: " + new Date(data.timestamp).toLocaleString());
-    document.getElementById("key").innerText = data.key;
-  }
 
   updateTimer();
   setInterval(updateTimer, 1000);
