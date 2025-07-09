@@ -42,18 +42,16 @@ function updateTimer() {
 
   const now = Date.now();
   const elapsed = now - data.timestamp;
-  const resetInterval = 24 * 60 * 60 * 1000; // 24 hours in ms
+  const resetInterval = 24 * 60 * 60 * 1000;
   let remaining = resetInterval - elapsed;
 
   if (remaining <= 0) {
-    // Time to generate new key
     const newKey = generateKey();
     saveKeyData(newKey);
     document.getElementById("key").innerText = newKey;
     remaining = resetInterval;
   }
 
-  // Calculate hours, minutes, seconds remaining
   const hours = Math.floor(remaining / (1000 * 60 * 60));
   const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
