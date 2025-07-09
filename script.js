@@ -31,15 +31,6 @@ function copyInvite() {
     navigator.clipboard.writeText(invite).then(() => alert("Invite copied to clipboard!"));
 }
 
-window.onload = () => {
-    let key = getStoredKey();
-    if (!key) {
-        key = generateKey();
-        saveKey(key);
-    }
-    document.getElementById("key").innerText = key;
-};
-
 function updateTimer() {
     const saved = localStorage.getItem("dailyKeyData");
     if (!saved) {
@@ -63,18 +54,16 @@ function updateTimer() {
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
         // Format with leading zeros
-        const hDisplay = hours.toString().padStart(2, '0');
-        const mDisplay = minutes.toString().padStart(2, '0');
-        const sDisplay = seconds.toString().padStart(2, '0');
+        const hDisplay = hours.toString().padStart(2, "0");
+        const mDisplay = minutes.toString().padStart(2, "0");
+        const sDisplay = seconds.toString().padStart(2, "0");
 
-        document.getElementById("timer").innerText = `Next key reset in: ${hDisplay}:${mDisplay}:${sDisplay}`;
+        document.getElementById(
+            "timer"
+        ).innerText = `Next key reset in: ${hDisplay}:${mDisplay}:${sDisplay}`;
     }
 }
 
-// Call updateTimer every second
-setInterval(updateTimer, 1000);
-
-// Also call on load to initialize display
 window.onload = () => {
     let key = getStoredKey();
     if (!key) {
@@ -83,4 +72,5 @@ window.onload = () => {
     }
     document.getElementById("key").innerText = key;
     updateTimer();
+    setInterval(updateTimer, 1000);
 };
