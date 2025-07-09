@@ -39,3 +39,48 @@ window.onload = () => {
     }
     document.getElementById("key").innerText = key;
 };
+
+function updateTimer() {
+    const saved = localStorage.getItem("dailyKeyData");
+    if (!saved) {
+        document.getElementById("timer").innerText = "Next key reset in: 24:00:00";
+        return;
+    }
+    const { timestamp } = JSON.parse(saved);
+    const now = Date.now();
+    const diff = 24 * 60 * 60 * 1000 - (now - timestamp);
+
+    if (diff <= 0) {
+        // Time to generate a new key
+        const newKey = generateKey();
+        saveKey(newKey);
+        document.getElementById("key").innerText = newKey;
+        document.getElementById("timer").innerText = "Next key reset in: 24:00:00";
+    } else {
+        // Calculate hours, minutes, seconds
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        // Format with leading zeros
+        const hDisplay = hours.toString().padStart(2, '0');
+        const mDisplay = minutes.toString().padStart(2, '0');
+        const sDisplay = seconds.toString().padStart(2, '0');
+
+        document.getElementById("timer").innerText = `Next key reset in: ${hDisplay}:${mDisplay}:${sDisplay}`;
+    }
+}
+
+// Call updateTimer every second
+setInterval(updateTimer, 1000);
+
+// Also call on load to initialize display
+window.onload = () => {
+    let key = getStoredKey();
+    if (!key) {
+        key = generateKey();
+        saveKey(key);
+    }
+    document.getElementById("key").innerText = key;
+    updateTimer();
+};
