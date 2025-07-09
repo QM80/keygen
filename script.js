@@ -45,12 +45,6 @@ function updateTimer() {
   const resetInterval = 24 * 60 * 60 * 1000; // 24 hours in ms
   let remaining = resetInterval - elapsed;
 
-  // Debug logging — remove if not needed
-  console.log("Now:", now);
-  console.log("Saved timestamp:", data.timestamp);
-  console.log("Elapsed ms:", elapsed);
-  console.log("Remaining ms:", remaining);
-
   if (remaining <= 0) {
     // Time to generate new key
     const newKey = generateKey();
@@ -75,11 +69,14 @@ function updateTimer() {
 
 window.onload = () => {
   const data = getStoredKeyData();
+
   if (!data) {
+    alert("No key found. Generating a new key.");
     const key = generateKey();
     saveKeyData(key);
     document.getElementById("key").innerText = key;
   } else {
+    alert("Found stored key: " + data.key + "\nTimestamp: " + new Date(data.timestamp).toLocaleString());
     document.getElementById("key").innerText = data.key;
   }
 
