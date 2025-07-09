@@ -1,25 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Key Gen site</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <div class="container">
         <h1>Today's Key:</h1>
         <div id="key">Loading...</div>
         <button onclick="copyKey()">Copy Key</button>
-        
-        <br>
 
-        <div class="invite-section">
+        <div class="invite-section" style="margin-top: 30px; background-color: transparent;">
             <h1>Discord Invite:</h1>
             <div id="invite"><strong>https://discord.gg/cons</strong></div>
             <button onclick="copyInvite()">Copy Invite</button>
-            <div id="timer">Next key reset in: 24:00:00</div>
+        </div>
+
+        <div id="timer" style="margin-top: 25px; font-weight: 600; font-size: 1.2rem;">
+            Next key reset in: 24:00:00
         </div>
     </div>
 
