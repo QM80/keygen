@@ -5,6 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>KeyGen site</title>
     <link rel="stylesheet" href="style.css" />
+    <style>
+      .container {
+        max-width: 400px;
+        margin: 0 auto;
+        text-align: center;
+        font-family: Arial, sans-serif;
+      }
+      #key {
+        font-weight: bold;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+      #timer {
+        margin-top: 25px;
+        font-weight: 600;
+        font-size: 1.2rem;
+      }
+      .invite-section {
+        margin-top: 30px;
+      }
+      #invite {
+        font-weight: bold;
+        color: #5865F2;
+        margin-bottom: 10px;
+      }
+      button {
+        cursor: pointer;
+        padding: 8px 16px;
+        font-size: 1rem;
+      }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -12,17 +43,17 @@
         <div id="key">Loading...</div>
         <button onclick="copyKey()">Copy Key</button>
 
-        <div class="invite-section" style="margin-top: 30px; background-color: transparent;">
+        <div class="invite-section">
             <h1>Discord Invite:</h1>
-            <div id="invite"><strong>https://discord.gg/cons</strong></div>
+            <div id="invite">https://discord.gg/cons</div>
             <button onclick="copyInvite()">Copy Invite</button>
         </div>
 
-        <div id="timer" style="margin-top: 25px; font-weight: 600; font-size: 1.2rem;">
-    <h1>Next key reset in: 24:00:00</h1>
-</div>
-
-
+        <div id="timer">Next key reset in: 24:00:00</div>
+      <footer>
+          <p><i>Website made by <b>qm8yyyy</b> on discord</p>
+      </footer>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
