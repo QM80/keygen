@@ -1,3 +1,4 @@
+
 function generateKeyFromDate(dateString) {
   const charset = "abcdefghijklmnopqrstuwvxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let seed = 0;
@@ -7,13 +8,14 @@ function generateKeyFromDate(dateString) {
   }
 
   let key = "";
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 16; i++) {
     const index = (seed + i * 17) % charset.length;
     key += charset.charAt(index);
   }
 
   return key;
 }
+
 
 function getTodayKey() {
   const today = new Date().toISOString().split("T")[0];
@@ -35,24 +37,31 @@ function updateTimer() {
   const mDisplay = minutes.toString().padStart(2, "0");
   const sDisplay = seconds.toString().padStart(2, "0");
 
-  document.getElementById(
-    "timer"
-  ).innerText = Next key reset in: ${hDisplay}:${mDisplay}:${sDisplay};
+  document.getElementById("timer").innerText = `Next key reset in: ${hDisplay}:${mDisplay}:${sDisplay}`;
 }
+
 
 function copyKey() {
   const key = document.getElementById("key").innerText;
   navigator.clipboard.writeText(key).then(() => alert("Key copied to clipboard!"));
 }
 
+
 function copyInvite() {
   const invite = document.getElementById("invite").innerText;
   navigator.clipboard.writeText(invite).then(() => alert("Invite copied to clipboard!"));
 }
 
+
 window.onload = () => {
+
   const key = getTodayKey();
   document.getElementById("key").innerText = key;
+
+
+  const discordInvite = "https://discord.gg/cons";
+  document.getElementById("invite").innerText = discordInvite;
+
 
   updateTimer();
   setInterval(updateTimer, 1000);
